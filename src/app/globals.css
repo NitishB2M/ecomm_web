@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+
+@theme {
+}
+
+@layer base {
+}
+
+@layer components {
+  .m_container {
+    /* @apply max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8; */
+    @apply max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .m_container_sm {
+    @apply max-w-screen-sm mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .min_h_screen {
+    min-height: calc(100vh - 80px);
+  }
+}
+
+@layer utilities {
+}
+
+input[type="text"],input[type="number"],input[type="password"],select,input[type="file"],input[type="email"],input[type="tel"] {
+  padding: 10px 10px;
+  border-radius: 6px;
+  width: 100%;
+  @apply border bg-primary/5 border-secondary;
+}
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+input[type="password"]::placeholder,
+input[type="file"]::placeholder,
+input[type="email"]::placeholder,
+select::placeholder {
+  @apply text-secondary/50;
+}
+input[type="checkbox"],input[type="radio"] {
+  @apply accent-primary dark:accent-dark-primary;
+}
+input[type="hidden"] {
+  @apply bg-primary dark:bg-dark-primary;
+}
+textarea {
+  padding: 10px 10px;
+  border-radius: 6px;
+  width: 100%;
+  @apply border border-primary/20;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.form-control.error input {
+  @apply bg-red-200;
+}
+.errors-msg {
+  @apply text-red-600 dark:text-red-300 text-sm mt-1;
+}
+.button{
+  @apply bg-primary text-white px-4 py-2 rounded-md w-fit dark:bg-primary/90 cursor-pointer dark:hover:bg-primary/60 transition-all duration-300 ease-in-out flex items-center gap-2;
+}
+.button-outline{
+  @apply border border-primary text-primary px-4 py-2 rounded-md w-fit dark:border-dark-primary dark:text-dark-primary cursor-pointer;
+}
+.button.disabled{
+  @apply bg-gray-400 text-white px-4 py-2 rounded-md w-fit cursor-not-allowed dark:hover:bg-gray-400;
+}
+.button-outline.disabled{
+  @apply border border-gray-400 text-gray-400 px-4 py-2 rounded-md w-fit cursor-not-allowed;
+}
+.custom-text {
+  @apply text-primary dark:text-dark-primary;
+}
+.select-container {
+  position: relative;
+}
+.form-label {
+  @apply text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block;
+}
+.form-select {
+  @apply border border-gray-300 text-gray-900 text-sm rounded-lg block w-full dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-300 dark:text-dark-primary;
+}
+.transition-500 {
+  @apply transition-all duration-500 ease-in-out;
+}
+.transition-300 {
+  @apply transition-all duration-300 ease-in-out;
+}
