@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '@/utils/context/AuthContext';
 import FormikForm from '../shared/FormikForm';
 import { Formik } from 'formik';
+import Constants from '@/utils/Constant';
 
 const Login = () => {
   const [initialValues, setInitialValues] = useState({
@@ -45,7 +46,7 @@ const Login = () => {
     const { email, password, username } = values;
     const result = await login(email, password, username);
     if (result.status) {
-      router.push('/profile');
+      router.push(Constants.AUTH_ROUTES.PROFILE);
       return;
     } else {
     }
@@ -88,11 +89,11 @@ const Login = () => {
     <>
       {
         user && Object.keys(user).length > 1 ? router.push('/profile') : (
-          <div className="flex justify-center items-center min-h-[80vh] bg-background dark:bg-dark-surface">
+          <div className="flex justify-center items-center min_h_screen2 bg-background dark:bg-dark-surface">
             {!resetDialogOpen ? (
-              <div className="p-8 w-full max-w-md text-ctaText mt-2 !bg-boxBg/10 dark:text-dark-ctaText dark:bg-dark-boxBg">
-                <div className="text-center !mb-6 font-bold text-primary dark:text-dark-primary">
-                  Login to Your Account
+              <div className="p-8 w-full max-w-md mt-2 bg-dark-box/20 dark:bg-box/10 backdrop-blur-md shadow-md rounded-md">
+                <div className="text-center mb-4 uppercase font-bold text-2xl text-primary dark:text-dark-primary">
+                  Login
                 </div>
                 <Formik
                   initialValues={initialValues}
@@ -100,7 +101,7 @@ const Login = () => {
                   onSubmit={onSubmit}
                 >
                   {({ errors, touched, handleSubmit }) => (
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                       <FormikForm.Input
                         name="email"
                         type="text"
@@ -121,11 +122,10 @@ const Login = () => {
 
                       <button
                         type="submit"
-                        className="bg-surface hover:bg-surface/80 dark:bg-dark-primary dark:hover:bg-dark-primary/80 text-md uppercase tracking-wider w-full py-2 rounded-md dark:text-dark-surface font-semibold transition-all duration-700 ease-in-out"
+                        className="bg-surface text-primary dark:text-background hover:bg-surface/80 dark:bg-dark-info dark:hover:bg-dark-info/80 text-md uppercase tracking-wider w-full py-2 rounded-md  font-semibold transition-500 border border-primary dark:border-dark-info/60"
                       >
                         Login
                       </button>
-
 
                       <div className="mt-4 flex justify-between items-center">
                         <button
@@ -135,7 +135,7 @@ const Login = () => {
                         >
                           Forgot Password?
                         </button>
-                        <Link href="/auth/signup" className="text-primary dark:text-dark-primary">
+                        <Link href="/auth/register" className="text-primary dark:text-dark-primary">
                           Sign up
                         </Link>
                       </div>
@@ -144,82 +144,54 @@ const Login = () => {
                 </Formik>
               </div>
             ) : (
-              <div className="p-8 w-full max-w-md text-l-ctaText mt-2 !bg-l-boxBg/10 dark:text-d-ctaText dark:bg-d-boxBg">
-                <div className="text-center !mb-6 font-bold text-l-primary dark:text-d-primary">
+              <div className="p-8 w-full max-w-md mt-2 bg-dark-box/20 dark:bg-box/10 backdrop-blur-md shadow-md rounded-md">
+                <div className="text-center mb-4 uppercase font-bold text-2xl text-primary dark:text-dark-primary">
                   Reset Password
                 </div>
-                {error.message && (
-                  <div severity="error" className="mb-4">
-                    {error.message}
-                    {error.details.length > 0 && (
-                      <ul className="mt-2 list-disc list-inside">
-                        {error.details.map((detail, index) => (
-                          <li key={index}>{detail}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                )}
-                {successMessage && (
-                  <div severity="success" className="mb-4">
-                    {successMessage}
-                  </div>
-                )}
-                <form onSubmit={handleResetPassword} className="space-y-4">
-                  <fieldset className="space-y-1">
-                    <Label htmlFor="username">Username*</Label>
-                    <div className="relative">
-                      <Input
-                        id="username"
-                        type="text"
+                <Formik
+                  initialValues={initialValues}
+                  validate={validationSchema}
+                  onSubmit={handleResetPassword}
+                >
+                  {({ errors, touched, handleSubmit }) => (
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                      {/* <FormikForm.Input
                         name="username"
+                        type="text"
                         placeholder="Enter username"
-                        className="ps-11 placeholder:text-l-primary/80"
-                        onChange={(e) => setUsername(e.target.value)}
-                        value={username}
-                      />
-                      <InputIcon>
-                        <User size={19} color="#AFBACA" />
-                      </InputIcon>
-                    </div>
-                  </fieldset>
-                  <fieldset className="space-y-1">
-                    <Label htmlFor="email">Email*</Label>
-                    <div className="relative">
-                      <Input
-                        id="email"
-                        type="email"
+                        label="Username"
+                        icon={<User size={19} color="#AFBACA" />}
+                        iconPosition="left"
+                      /> */}
+                      <FormikForm.Input
                         name="email"
+                        type="email"
                         placeholder="Enter email"
-                        className="ps-11 placeholder:text-l-primary/80"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
+                        label="Email"
+                        icon={<Envelope size={19} color="#AFBACA" />}
+                        iconPosition="left"
                       />
-                      <InputIcon>
-                        <Envelope size={19} color="#AFBACA" />
-                      </InputIcon>
-                    </div>
-                  </fieldset>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    className="bg-l-boxBg hover:bg-l-boxBg/80 dark:bg-d-boxBg dark:hover:bg-d-boxBg/80 w-full"
-                  >
-                    Reset Password
-                  </Button>
-                </form>
-
-                <div className="mt-4 flex justify-between items-center">
-                  <Button
-                    onClick={(prev) => setResetDialogOpen(!prev)}
-                    className="text-info hover:text-info/80 dark:text-dark-info dark:hover:text-dark-info/80"
-                  >
-                    Login
-                  </Button>
-                  <Link href="/auth/signup" className="text-c-info hover:text-c-info/80">
-                    Sign up
-                  </Link>
-                </div>
+                      <button
+                        type="submit"
+                        className="bg-surface text-primary dark:text-background hover:bg-surface/80 dark:bg-dark-info dark:hover:bg-dark-info/80 text-md uppercase tracking-wider w-full py-2 rounded-md  font-semibold transition-500 border border-primary dark:border-dark-info/60"
+                      >
+                        Reset Password
+                      </button>
+                      <div className="flex justify-between items-center mt-4">
+                        <button
+                          type="button"
+                          onClick={(prev) => setResetDialogOpen(!prev)}
+                          className="text-primary dark:text-dark-primary"
+                        >
+                          Login
+                        </button>
+                        <Link href={Constants.PUBLIC_ROUTES.REGISTER} className="text-primary dark:text-dark-primary">
+                          Sign up
+                        </Link>
+                      </div>
+                    </form>
+                  )}
+                </Formik>
               </div>
             )}
           </div>
