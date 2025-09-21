@@ -8,6 +8,7 @@ import { useTheme } from '@/utils/context/ThemeContext';
 import Link from 'next/link';
 import { FaClipboard, FaClipboardCheck, FaSearch, FaShare } from "react-icons/fa";
 import { IsLoggedIn, CURRENT_USER } from '@/utils/Helpers';
+import Constants from '@/utils/Constant';
 
 const Navbar = () => {
   const router = useRouter();
@@ -24,7 +25,7 @@ const Navbar = () => {
   const [activePath, setActivePath] = useState(pathname);
 
   const [menuItems] = useState([
-    { name: 'Products', path: '/product' },
+    { name: 'Products', path: '/products' },
     { name: 'About', path: '/about' },
   ]);
 
@@ -44,7 +45,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     const result = await logout();
-    router.push('/login');
+    router.push(Constants.PUBLIC_ROUTES.LOGIN);
   };
 
   const handleSearch = (e) => {
@@ -183,7 +184,7 @@ const Navbar = () => {
 };
 
 const MenuItem = ({ href, label, icon }) => (
-  <Link href={href}>
+  <Link href={href} onClick={() => setIsOpen(false)}>
     <div className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center gap-2">
       {icon}
       {label}

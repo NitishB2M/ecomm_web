@@ -10,7 +10,7 @@ const Input = (props) => {
     step,
     type,
     onChange,
-    styles,
+    inputClass='',
     errorClass,
     containerClass,
     labelClass,
@@ -31,7 +31,7 @@ const Input = (props) => {
       { label && 
         <label
           htmlFor={name + '-id'}
-          className={classNames("form-input mb-1", { 'label-error': hasError }, { 'text-secondary/90': disabled })}
+          className={classNames("form-input mb-1 text-sm", { 'label-error': hasError }, { 'text-secondary/90': disabled })}
         >
           {label}
         </label>
@@ -64,14 +64,15 @@ const Input = (props) => {
             setFieldTouched(name, true);
             setFieldValue(name, e.target.value);
           }}
-          className={classNames(`form-input outline-none ${styles}`,
+          className={classNames(`form-input outline-none`,
             {
               '!pl-10': icon && iconPosition === 'left',
               '!pr-10': icon && iconPosition === 'right',
             },
             'border-gray-300 focus:ring-2 focus:ring-slate-50', 
             {'error': hasError}, 
-            { 'text-secondary/95': disabled }
+            { 'text-secondary/95': disabled },
+            inputClass
           )}
         />
       </div>

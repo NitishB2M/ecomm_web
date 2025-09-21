@@ -216,14 +216,18 @@ const Home = () => {
             </div>
           </div>
 
-          <div className='grid grid-cols-5 gap-4'>
-            {productGreatDeals && productGreatDeals.map((product) => (
-              <div key={product.id}>
-                <ProductCard product={product} isFlashSale={true} />
-              </div>
-            ))}
+          <div className='flex flex-col gap-4 justify-center'>
+            <div className='grid grid-cols-5 gap-4'>
+              {productGreatDeals && productGreatDeals.map((product) => (
+                <div key={product.id} className=''>
+                  <ProductCard product={product} isFlashSale={true} />
+                </div>
+              ))}
+            </div>
+            <div className='flex justify-center'>
+              <ViewButton link="/products/flash-sale" text="View All Products" />
+            </div>
           </div>
-          <ViewButton link="/products/flash-sale" text="View All Products" />
         </div>
       }
 
@@ -241,7 +245,9 @@ const Home = () => {
             ))}
           </div>
 
-          <ViewButton link="/products" text="View All Products" />
+          <div className='flex justify-end'>
+            <ViewButton link="/products" text="View All Products" />
+          </div>
         </div>
       )}
     </div>

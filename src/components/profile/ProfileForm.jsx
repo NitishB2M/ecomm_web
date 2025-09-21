@@ -8,7 +8,7 @@ import { CURRENT_USER } from '@/utils/Helpers';
 import { useAuth } from '@/utils/context/AuthContext';
 import { toast } from 'react-toastify';
 
-const ProfileForm = ({ data }) => {
+const ProfileForm = ({ data, callback }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [isFormTouched, setIsFormTouched] = useState(false);
 	const profile = CURRENT_USER();
@@ -51,6 +51,7 @@ const ProfileForm = ({ data }) => {
 			toast.success(result.message);
 			setIsFormTouched(false);
 			setIsEditing(false);
+			callback();
 		} else {
 			toast.error(result.error);
 		}

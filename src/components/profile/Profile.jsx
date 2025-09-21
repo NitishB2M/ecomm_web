@@ -80,6 +80,13 @@ const Profile = () => {
     }
   };
 
+  const handleProfileCallback = async () => {
+    const res = await fetchProfile(user);
+    if (res.status) {
+      setProfile(res.data);
+    }
+  };
+
   const menuItems = [
     { id: 'profile', label: 'Profile', icon: <User size={20} /> },
     { id: 'address', label: 'Address Book', icon: <MapPin size={20} /> },
@@ -107,10 +114,10 @@ const Profile = () => {
   if (loading) return <ProfileSkeleton />;
 
   return (
-    <div className="min-h-[calc(100vh-56px)] bg-gray-50 dark:bg-gray-900">
+    <div className="min_h_screen2 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 md:grid-cols-[300px_1fr_250px] gap-3">
         {/* Sidebar */}
-        <aside className="max-h-[calc(100vh-100px)] overflow-y-scroll bg-white dark:bg-gray-800 rounded-xl shadow-md border dark:border-gray-700 p-4 flex flex-col space-y-8">
+        <aside className="max-h-[calc(100vh-100px)] bg-white dark:bg-gray-800 rounded-xl shadow-md border dark:border-gray-700 p-4 flex flex-col space-y-8">
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="w-24 h-24 rounded-full overflow-hidden ring-2 ring-primary/70 shadow">
               <img
@@ -133,7 +140,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-1 overflow-y-auto pr-2">
             {menuItems.map(item => (
               <button
                 key={item.id}
@@ -154,7 +161,7 @@ const Profile = () => {
         <main className="flex flex-col">
           {/* Section Content */}
           <section className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 p-6 shadow-sm">
-            {activeSection === 'profile' && <ProfileForm data={profile} />}
+            {activeSection === 'profile' && <ProfileForm data={profile} callback={handleProfileCallback} />}
             {activeSection === 'address' &&  (
               <div className="space-y-6">
                 <div className="flex justify-between items-center mb-6">
