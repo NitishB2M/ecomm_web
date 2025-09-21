@@ -48,6 +48,9 @@ body {
   .min_h_screen {
     min-height: calc(100vh - 80px);
   }
+  .min_h_screen2 {
+    min-height: calc(100vh - 56px);
+  }
 }
 
 @layer utilities {
