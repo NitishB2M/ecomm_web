@@ -23,7 +23,11 @@ export const CURRENT_USER = (key = "USER") => {
     localStorage &&
     !!localStorage.getItem(key)
   ) {
-    return JSON.parse(localStorage.getItem(key));
+    if(localStorage.getItem(key) === 'undefined') return null;
+
+    if(localStorage.getItem(key)){
+      return JSON.parse(localStorage.getItem(key));
+    }
   }
   return null;
 };
@@ -32,6 +36,10 @@ export const IsLoggedIn = () => {
   if (!iswindow()) return false;
   const token = localStorage.getItem('token') || '';
   let user = localStorage.getItem('USER') || '';
+  if (user === 'undefined') {
+    return false;
+  }
+
   if(user){
     user = JSON.parse(user);
   }
@@ -156,9 +164,16 @@ export const handleLogout = () => {
   }
 };
 
+const dynamicWhitelistPatterns = [
+  /^\/products\/[^/]+$/,
+  /^\/categories\/[^/]+$/,
+];
+
 export const isWhiteListed = (path) => {
-  const cleanPath = path.split('?')[0].replace(/\/$/, ''); // remove query & trailing slash
-  return Constants.UNAUTHORIZED_ROUTES.some((route) => route.path === cleanPath);
+  const cleanPath = path.split('?')[0].replace(/\/$/, '');
+  const staticMatch = Constants.UNAUTHORIZED_ROUTES.some((route) => route.path === cleanPath);
+  const dynamicMatch = dynamicWhitelistPatterns.some((pattern) => pattern.test(cleanPath));
+  return staticMatch || dynamicMatch;
 };
 
 export const GenerateHash = (dictInput) => {

@@ -20,7 +20,7 @@ const API_ENDPOINTS = {
   PASSWORD_RESET: L_USER_BASE_URL + '/auth/password-reset',
   PASSWORD_RESET_REQUEST: L_USER_BASE_URL + '/auth/password-reset-request',
   SEND_VERIFICATION_EMAIL: L_USER_BASE_URL + '/auth/email-verification/request',
-  EMAIL_VERIFICATION: L_USER_BASE_URL + '/auth/email-verification/',
+  VERIFY_EMAIL: L_USER_BASE_URL + '/auth/email-verification',
 
   // user
   GET_USER_PROFILE: L_USER_BASE_URL + '/profile',
@@ -73,13 +73,62 @@ const API_ENDPOINTS = {
 }
 
 const UNAUTHORIZED_ROUTES = [
+  { path: '', name: 'Home' },
+  { path: '/', name: 'Home' },
+  { path: '/faq', name: 'FAQ' },
+  { path: '/cart', name: 'Cart' },
+  { path: '/about', name: 'About' },
+  { path: '/contact', name: 'Contact' },
   { path: '/auth/login', name: 'Login' },
+  { path: '/products', name: 'All Products' },
+  { path: '/search', name: 'Search Results' },
   { path: '/auth/register', name: 'Register' },
+  { path: '/privacy', name: 'Privacy Policy' },
+  { path: '/terms', name: 'Terms & Conditions' },
+  { path: '/verify', name: 'Email Verification' },
+  { path: '/products/:id', name: 'Product Details' },
+  { path: '/categories/:slug', name: 'Category Listing' },
+]
+
+const AUTH_ROUTES = {
+  PROFILE: "/profile",
+  ORDERS: "/orders",
+  CHECKOUT: "/checkout",
+  WISHLIST: "/wishlist",
+  REVIEWS: "/reviews",
+  ORDERS_ID: "/orders/:id",
+  ACCOUNT: "/account",
+  ACCOUNT_PROFILE: "/account/profile",
+  ACCOUNT_PAYMENT: "/account/payment",
+  ACCOUNT_ADDRESSES: "/account/addresses",
+  ACCOUNT_SECURITY: "/account/security",
+}
+
+const ADMIN_ROUTES = [
+  { path: '/admin', name: 'Admin Dashboard' },
+  { path: '/admin/users', name: 'Manage Users' },
+  { path: '/admin/orders', name: 'Manage Orders' },
+  { path: '/admin/settings', name: 'Site Settings' },
+  { path: '/admin/reviews', name: 'Moderate Reviews' },
+  { path: '/admin/products', name: 'Manage Products' },
+  { path: '/admin/products/new', name: 'Add Product' },
+  { path: '/admin/categories', name: 'Manage Categories' },
+  { path: '/admin/analytics', name: 'Analytics & Reports' },
+  { path: '/admin/products/:id/edit', name: 'Edit Product' },
+]
+
+const MARKETING_ROUTES = [
+  { path: '/blog', name: 'Blog' },
+  { path: '/blog/:slug', name: 'Blog Post' },
+  { path: '/deals', name: 'Deals & Offers' },
+  { path: '/new-arrivals', name: 'New Arrivals' },
+  { path: '/best-sellers', name: 'Best Sellers' },
 ]
 
 const PUBLIC_ROUTES = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
+  EMAIL_VERIFICATION: '/verify',
 }
 
 const ROLE_ROUTES = {
@@ -94,7 +143,10 @@ const Constants = {
   PUBLIC_ROUTES,
   ROLE_ROUTES,
   EMAIL_REGEX,
-  IDLE_TIMEOUT
+  IDLE_TIMEOUT,
+  AUTH_ROUTES,
+  ADMIN_ROUTES,
+  MARKETING_ROUTES
 }
 
 export default Constants;

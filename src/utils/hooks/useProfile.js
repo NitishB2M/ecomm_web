@@ -55,12 +55,19 @@ export const useProfile = () => {
     }
   };
 
-  const signup = async (data) => {
+  const register = async (data) => {
     try {
+      const payload = {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        password: data.password
+      }
+      console.log(payload);
       const response = await ApiCall({
         url: Constants.API_ENDPOINTS.REGISTER_USER,
         method: 'POST',
-        body: data,
+        body: payload,
       });
 
       return response;
@@ -131,6 +138,21 @@ export const useProfile = () => {
     }
   };
 
+  const verifyEmail = async (token) => {
+    try {
+      const payload = { token: token };
+      const response = await ApiCall({
+        url: Constants.API_ENDPOINTS.VERIFY_EMAIL,
+        method: 'POST',
+        body: payload,
+      });
+
+      return response;
+    } catch (error) {
+      return { status: false, error: error.message };
+    }
+  };
+
   const deactivateAccount = async (data) => {
     try {
       if (!data) {
@@ -158,12 +180,13 @@ export const useProfile = () => {
     fetchProfile,
     updateProfile,
     login,
-    signup,
-    requestPasswordReset,
-    sendVerificationEmail,
+    register,
     deactivateAccount,
     logout,
     switchRole,
-    resetPassword
+    resetPassword,
+    requestPasswordReset,
+    verifyEmail,
+    sendVerificationEmail,
   };
 };
