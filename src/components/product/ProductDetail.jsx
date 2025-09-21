@@ -35,7 +35,7 @@ const ProductDetail = () => {
           })
         }
         setProduct(response.data);
-        setSelectedColor(response.data.colors[0]);
+        // setSelectedColor(response.data?.colors[0] || 'white');
       }
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -162,7 +162,7 @@ const ProductDetail = () => {
       <div className='grid grid-cols-12 gap-4'>
         {/* Product Images */}
         <div className='col-span-12 md:col-span-6'>
-          <div className="flex gap-4">
+          <div className="flex gap-4 max-h-[500px]">
             <div className="w-24 space-y-4">
               {product?.images && product.images.length > 0 ? product.images.map((image, index) => (
                 <div
@@ -225,7 +225,33 @@ const ProductDetail = () => {
               </div>
             </div>
           )}
-        </div>
+          <div className="flex flex-col gap-2 !mt-8 p-8 rounded-lg shadow-sm dark:bg-d-boxBg border border-l-border dark:border-d-border">
+            <div className="!mb-2">
+              Category:
+              </div>
+              <div className="">
+                <div className="p-2 flex gap-2 justify-between">
+                  <span className="font-semibold text-gray-600"> {product.category.entity.entity_type}</span>
+                  <span className="font-semibold text-gray-600">{product.category.entity.entity_name}</span>
+                </div>
+                <div className='my-2 dark:border-gray-600' />
+              </div>
+              <div className="!mb-2">
+                Tag:
+              </div>
+              {product?.tags?.length > 0 && product.tags.map((tag, index) => (
+                <>
+                  <div className="">
+                    <div className="p-2 flex gap-2 justify-between">
+                      <span className="font-semibold text-gray-600"> {product.category.entity.entity_type}</span>
+                      <span className="font-semibold text-gray-600">  {product.category.entity.entity_name}</span>
+                    </div>
+                  <div className='my-2 dark:border-gray-600' />
+                  </div>
+                </>
+              ))}
+            </div>
+          </div>
 
         {/* Product Info */}
         <div className='col-span-12 md:col-span-6'>
