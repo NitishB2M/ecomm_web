@@ -15,6 +15,7 @@ const config = {
         accent: '#F59E0B',        // Amber 500 - energetic accent
         background: '#FFFFFF',    // Light background
         surface: '#F9FAFB',       // Light surface (cards, inputs)
+        surface2: '#F3F4F6',      // Light surface (cards, inputs)
         text: '#111827',          // Gray 900 - strong dark text
         muted: '#9CA3AF',         // Gray 400 - muted text or borders
         border: '#E5E7EB',        // Gray 200 - standard borders
@@ -30,6 +31,8 @@ const config = {
         dark: {
           background: '#0F172A',    // Slate 900 - dark bg
           surface: '#1E293B',       // Slate 800 - dark surface
+          surface2: '#334155',      // Slate 700
+          secondary: '#64748B',     // Slate 500
           text: '#F8FAFC',          // Light text
           muted: '#64748B',         // Slate 500
           border: '#334155',        // Slate 700
@@ -48,6 +51,7 @@ const config = {
       fontFamily: {
         'poppins': ['Poppins'],
       },
+      placeholderColor: ['dark', 'important'],
     },
   },
   plugins: [],

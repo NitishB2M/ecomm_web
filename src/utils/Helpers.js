@@ -23,15 +23,34 @@ export const CURRENT_USER = (key = "USER") => {
     localStorage &&
     !!localStorage.getItem(key)
   ) {
-    return JSON.parse(localStorage.getItem(key));
+    if(localStorage.getItem(key) === 'undefined') return null;
+
+    if(localStorage.getItem(key)){
+      return JSON.parse(localStorage.getItem(key));
+    }
   }
   return null;
 };
+
+export const CURRENT_ROLE = () => {
+  if (
+    typeof window !== "undefined" &&
+    localStorage &&
+    !!localStorage.getItem('LOGIN_ROLE')
+  ) {
+    return localStorage.getItem('LOGIN_ROLE');
+  }
+  return null;
+}
 
 export const IsLoggedIn = () => {
   if (!iswindow()) return false;
   const token = localStorage.getItem('token') || '';
   let user = localStorage.getItem('USER') || '';
+  if (user === 'undefined') {
+    return false;
+  }
+
   if(user){
     user = JSON.parse(user);
   }
@@ -150,15 +169,24 @@ export const getFromLocalStorage = (key) => {
 };
 
 export const handleLogout = () => {
-  localStorage.clear();
+  localStorage.removeItem('token');
+  localStorage.removeItem('USER');
+  localStorage.removeItem('LOGIN_ROLE');
   if (typeof window !== "undefined") {
     window.location.href = Constants.PUBLIC_ROUTES.LOGIN;
   }
 };
 
+const dynamicWhitelistPatterns = [
+  /^\/products\/[^/]+$/,
+  /^\/categories\/[^/]+$/,
+];
+
 export const isWhiteListed = (path) => {
-  const cleanPath = path.split('?')[0].replace(/\/$/, ''); // remove query & trailing slash
-  return Constants.UNAUTHORIZED_ROUTES.some((route) => route.path === cleanPath);
+  const cleanPath = path.split('?')[0].replace(/\/$/, '');
+  const staticMatch = Constants.UNAUTHORIZED_ROUTES.some((route) => route.path === cleanPath);
+  const dynamicMatch = dynamicWhitelistPatterns.some((pattern) => pattern.test(cleanPath));
+  return staticMatch || dynamicMatch;
 };
 
 export const GenerateHash = (dictInput) => {

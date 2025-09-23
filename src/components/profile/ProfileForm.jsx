@@ -8,7 +8,7 @@ import { CURRENT_USER } from '@/utils/Helpers';
 import { useAuth } from '@/utils/context/AuthContext';
 import { toast } from 'react-toastify';
 
-const ProfileForm = ({ data }) => {
+const ProfileForm = ({ data, callback }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [isFormTouched, setIsFormTouched] = useState(false);
 	const profile = CURRENT_USER();
@@ -23,15 +23,15 @@ const ProfileForm = ({ data }) => {
 	useEffect(() => {
 		if (data && initialValues && initialValues.email !== profile.email){
 			setInitialValues({
-				first_name: data.first_name,
-				last_name: data.last_name,
+				first_name: data.f_nm,
+				last_name: data.l_nm,
 				email: data.email,
 				phone: data?.phone
 			});
 		} else if (profile && initialValues && initialValues.email !== profile.email) {
 			setInitialValues({
-				first_name: profile.first_name,
-				last_name: profile.last_name,
+				first_name: profile.f_nm,
+				last_name: profile.l_nm,
 				email: profile.email,
 				phone: profile?.phone
 			});
@@ -51,6 +51,7 @@ const ProfileForm = ({ data }) => {
 			toast.success(result.message);
 			setIsFormTouched(false);
 			setIsEditing(false);
+			callback();
 		} else {
 			toast.error(result.error);
 		}

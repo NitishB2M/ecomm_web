@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { CustomProductTypography } from '@/utils/common/customTypography';
 import { useCart } from '@/utils/hooks/useCart';
 import { useWishlist } from '@/utils/hooks/useWishlist';
 import { Formik } from "formik";
@@ -82,7 +81,7 @@ const ProductCard = ({ product, isFlashSale = false, callback = null }) => {
   return (
     <div 
       className="relative group cursor-pointer rounded-lg overflow-hidden shadow-sm hover:shadow-lg bg-surface dark:bg-primary border border-primary dark:border-border transition-all duration-1000 ease-in-out font-poppins"
-      onClick={() => router.push(`/product/${product.id}`)}
+      onClick={() => router.push(`/products/${product.id}`)}
     >
       {/* Discount Badge */}
       {product.discount > 0 && (
@@ -103,7 +102,7 @@ const ProductCard = ({ product, isFlashSale = false, callback = null }) => {
           className="w-8"
           onClick={(e) => {
             e.stopPropagation();
-            router.push(`/product/${product.id}`);
+            router.push(`/products/${product.id}`);
           }}
         >
           <Eye className={`text-3xl text-cyan-600 w-full rounded-md bg-cyan-100 `} />
@@ -137,10 +136,10 @@ const ProductCard = ({ product, isFlashSale = false, callback = null }) => {
           </div>
 
           <div className="flex items-center gap-2">
-            <div value={product.rating || 0} readOnly size="small" className="text-yellow-400" />
-            <CustomProductTypography variant="body2" color="textSecondary" hoverColor="textSecondary">
+            <div value={product.rating || 0} className="text-yellow-400" />
+            <div className="text-gray-500">
               ({product.reviews || 0})
-            </CustomProductTypography>
+            </div>
           </div>
         </div>
 
@@ -161,13 +160,13 @@ const ProductCard = ({ product, isFlashSale = false, callback = null }) => {
           <button
             type='button'
             className={`w-full mt-4 py-2 bg-dark-info text-white dark:text-dark-background dark:hover:bg-dark-cta transition-colors duration-500 text-sm font-medium rounded-md`}
-            onClick={() => router.push(`/product/${product.id}`)}
+            onClick={() => router.push(`/products/${product.id}`)}
           >
             View Product
           </button>
           <button
             type='button'
-            className={`w-full mt-4 py-2 bg-primary text-white dark:bg-dark-background/70 dark:text-dark-primary dark:hover:bg-dark-background transition-colors duration-500 text-sm font-medium rounded-md ${product.in_stock ? '' : '!text-danger dark:text-danger opacity-50 cursor-not-allowed'}`}
+            className={`w-full mt-4 py-2 bg-primary text-white dark:bg-dark-background/70 dark:text-dark-primary dark:hover:bg-dark-background transition-colors duration-500 text-sm font-medium rounded-md ${product.in_stock ? 'text-white' : '!text-red-600 dark:bg-red-200 bg-red-200 dark:hover:bg-red-100 opacity-80 cursor-not-allowed'}`}
             onClick={handleAddToCart}
             disabled={!product.in_stock}
           >

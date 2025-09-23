@@ -48,6 +48,9 @@ body {
   .min_h_screen {
     min-height: calc(100vh - 80px);
   }
+  .min_h_screen2 {
+    min-height: calc(100vh - 56px);
+  }
 }
 
 @layer utilities {
@@ -77,7 +80,7 @@ textarea {
   padding: 10px 10px;
   border-radius: 6px;
   width: 100%;
-  @apply border border-primary/20;
+  @apply !border !border-secondary bg-primary/5;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
