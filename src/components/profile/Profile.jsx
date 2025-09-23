@@ -72,9 +72,15 @@ const Profile = () => {
     }, 5000);
   };
 
-  const handleSwitchRole = async (username) => {
+  const handleSwitchRole = async (role) => {
     try {
-      await switchRole(username);
+      if (role) {
+        const payload = { role_id: role.user_role_id, user_id: user.id };
+        const result = await switchRole(payload);
+        if (result.status) {
+          window.location.reload();
+        }
+      }
     } catch (error) {
       console.error('Failed to switch role:', error);
     }
@@ -121,14 +127,14 @@ const Profile = () => {
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="w-24 h-24 rounded-full overflow-hidden ring-2 ring-primary/70 shadow">
               <img
-                src={`https://ui-avatars.com/api/?name=${profile?.first_name}+${profile?.last_name}`}
+                src={`https://ui-avatars.com/api/?name=${profile?.fl_nm}`}
                 alt="avatar"
                 className="object-cover w-full h-full"
               />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                {profile.first_name} {profile.last_name}
+                {profile.fl_nm}
               </h2>
               <span className="text-sm text-gray-500 dark:text-gray-400">{profile.email}</span>
               <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Joined {formatDate(profile.created_at)}</p>
@@ -218,17 +224,18 @@ const Profile = () => {
             </div>
           )}
 
-          {profile.roles?.all_roles
-            ?.filter(role => role.role_id !== profile.roles?.active_role?.role_id)
-            ?.map(role => {
+          {profile.roles?.map(role => {
+            if (role.is_current || !role.is_active) {
+              return null;
+            }
               return (
                 <button
-                  key={`${role.username}-${role.role_id}`}
-                  onClick={() => handleSwitchRole(role.username)}
+                  key={`${role.user_role_id}`}
+                  onClick={() => handleSwitchRole(role)}
                   className="button !w-full !bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-lg font-medium shadow flex items-center gap-2"
                 >
                   <UserSwitch size={20} />
-                  Switch to {role.role}
+                  Switch to {role.role_name}
                 </button>
               );
             }

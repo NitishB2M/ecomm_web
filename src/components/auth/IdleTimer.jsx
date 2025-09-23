@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useIdleTimer } from 'react-idle-timer';
 import Constants from '@/utils/Constant';
-import { isWhiteListed } from '@/utils/Helpers';
+import { CURRENT_USER, isWhiteListed } from '@/utils/Helpers';
 import { isTokenExpired, getTokenFromStorage } from '@/utils/common/tokenUtils';
+import { useProfile } from '@/utils/hooks/useProfile';
 
 const IDLE_TIMEOUT = Constants.IDLE_TIMEOUT;
 const TOKEN_CHECK_INTERVAL = 60000; // Check every minute
@@ -16,11 +17,11 @@ export const IdleTimer = () => {
   const tokenCheckInterval = useRef(null);
   
   const isWhitelistedRoute = isWhiteListed(pathname);
+  const user = CURRENT_USER();
+  const { logout } = useProfile();
   
   const handleLogout = useCallback(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-    router.push('/auth/login');
+    logout();
   }, [router]);
 
   const handleUserIdle = useCallback(() => {
@@ -62,6 +63,9 @@ export const IdleTimer = () => {
   useEffect(() => {
     if (!isWhitelistedRoute) {
       tokenCheckInterval.current = setInterval(checkTokenExpiration, TOKEN_CHECK_INTERVAL);
+      if (user === null || user === undefined) {
+        handleLogout();
+      }
       
       return () => {
         if (tokenCheckInterval.current) {
