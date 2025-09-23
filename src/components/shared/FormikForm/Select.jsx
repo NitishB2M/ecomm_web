@@ -48,11 +48,11 @@ const Select = ({
   };
 
   return (
-    <div className={classNames('select-container', containerClass)}>
+    <div className={classNames('flex flex-col w-full dark:text-dark-text/90 mb-1', containerClass)}>
       {label && (
         <label
           htmlFor={`${name}-id`}
-          className={classNames('form-label', labelClass, {
+          className={classNames('mb-1 text-sm dark:text-dark-primary', labelClass, {
             'label-error': hasError,
           })}
         >
@@ -65,7 +65,7 @@ const Select = ({
         name={name}
         options={options}
         components={animatedComponents}
-        className={classNames('form-select mt-1', selectClass)}
+        className={classNames('form-select', selectClass)}
         styles={{
           control: (base) => ({
             ...base,

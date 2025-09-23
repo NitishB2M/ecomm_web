@@ -7,7 +7,7 @@ import { useProfile } from '@/utils/hooks/useProfile';
 import { useTheme } from '@/utils/context/ThemeContext';
 import Link from 'next/link';
 import { FaClipboard, FaClipboardCheck, FaSearch, FaShare } from "react-icons/fa";
-import { IsLoggedIn, CURRENT_USER } from '@/utils/Helpers';
+import { IsLoggedIn, CURRENT_USER, CURRENT_ROLE } from '@/utils/Helpers';
 import Constants from '@/utils/Constant';
 
 const Navbar = () => {
@@ -17,6 +17,7 @@ const Navbar = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   const { logout } = useProfile();
   const user = CURRENT_USER();
+  const loggedInRole = CURRENT_ROLE();
   const isLoggedIn = IsLoggedIn();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
@@ -27,6 +28,18 @@ const Navbar = () => {
   const [menuItems] = useState([
     { name: 'Products', path: '/products' },
     { name: 'About', path: '/about' },
+  ]);
+
+  const [sideMenuItems, setSideMenuItems] = useState([
+    { name: 'Profile', path: '/profile', icon: <UserCircle size={24} /> },
+    { name: 'Orders', path: '/orders', icon: <ShoppingBag size={24} /> },
+    { name: 'Wishlist', path: '/wishlist', icon: <Heart size={24} /> },
+    { name: 'Reviews', path: '/reviews', icon: <Star size={24} /> },
+    { name: 'Logout', path: '/logout', icon: <XCircle size={24} /> },
+  ]);
+  
+  const [sellerMenuItems, setSellerMenuItems] = useState([
+    { name: 'Manage Products', path: '/products/manage', icon: <Sun size={24} /> },
   ]);
 
   useEffect(() => {
@@ -45,7 +58,10 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     const result = await logout();
-    router.push(Constants.PUBLIC_ROUTES.LOGIN);
+    if (result.status) {
+      setIsOpen(false);
+      router.push(Constants.PUBLIC_ROUTES.LOGIN);
+    }
   };
 
   const handleSearch = (e) => {
@@ -151,16 +167,28 @@ const Navbar = () => {
                     <div className="border-t border-gray-200 dark:border-gray-700" />
 
                     <div className="py-1">
-                      <MenuItem href="/profile" label="Manage Account" icon={<UserCircle size={20} />} />
-                      <MenuItem href="/orders" label="Orders" icon={<ShoppingBag size={20} />} />
-                      <MenuItem href="/cancellations" label="Cancellations" icon={<XCircle size={20} />} />
-                      <MenuItem href="/reviews" label="Reviews" icon={<Star size={20} />} />
+                      {sideMenuItems && sideMenuItems.map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          href={item.path}
+                          label={item.name}
+                          icon={item.icon}
+                        />
+                      ))}
+                      {loggedInRole === 'seller' && sellerMenuItems && sellerMenuItems.map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          href={item.path}
+                          label={item.name}
+                          icon={item.icon}
+                        />
+                      ))}
                     </div>
 
                     <div className="border-t border-gray-200 dark:border-gray-700" />
 
                     <div
-                      onClick={handleLogout}
+                      onClick={() => handleLogout()}
                       className="cursor-pointer px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-lg"
                     >
                       Logout

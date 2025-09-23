@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import ApiCall from '../APICalls';
 import Constants from '../Constant';
+import { useRouter } from 'next/navigation';
 
 export const useProfile = () => {
   const [user, setUser] = useState(null);
+  const router = useRouter();
   const fetchProfile = async (data) => {
     try {
       const payload = {
-        user_id: data.id
+        id: data.id
       };
       const response = await ApiCall({ 
         url: Constants.API_ENDPOINTS.GET_USER_PROFILE,
@@ -46,6 +48,9 @@ export const useProfile = () => {
       if(response.status) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('USER', JSON.stringify(response.data.user));
+        const roles = response.data.user.roles;
+        const loggedInRole = roles.find(role => role.is_current === true);
+        localStorage.setItem('LOGIN_ROLE', loggedInRole.role_name);
         setUser(response.data.user);
       }
 
@@ -76,14 +81,25 @@ export const useProfile = () => {
     }
   };
 
-  const switchRole = async (username) => {
+  const switchRole = async (data) => {
     try {
-      const payload = { username };
+      const payload = { 
+        role_id: data.role_id,
+        user_id: data.user_id
+      };
       const response = await ApiCall({
         url: Constants.API_ENDPOINTS.SWITCH_USER_ROLE,
         method: 'POST',
         body: payload,
       });
+
+      if(response.status) {
+        localStorage.setItem('USER', JSON.stringify(response.data));
+        const roles = response.data.roles;
+        const loggedInRole = roles.find(role => role.is_current === true);
+        localStorage.setItem('LOGIN_ROLE', loggedInRole.role_name);
+        setUser(response.data);
+      }
 
       return response;
     } catch (error) {
@@ -172,7 +188,10 @@ export const useProfile = () => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('USER');
+    localStorage.removeItem('LOGIN_ROLE');
     setUser(null);
+    return { status: true };
   };
 
   return {
