@@ -65,7 +65,7 @@ const Login = () => {
   return (
     <>
       {
-        user && Object.keys(user).length > 1 ? router.push('/profile') : (
+        user && (
           <div className="flex justify-center items-center min_h_screen2 bg-background dark:bg-dark-surface">
             {!resetDialogOpen ? (
               <div className="p-8 w-full max-w-lg mt-2 bg-dark-box/20 dark:bg-box/10 backdrop-blur-md shadow-md rounded-md">
