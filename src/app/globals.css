@@ -80,7 +80,7 @@ textarea {
   padding: 10px 10px;
   border-radius: 6px;
   width: 100%;
-  @apply border border-primary/20;
+  @apply !border !border-secondary bg-primary/5;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

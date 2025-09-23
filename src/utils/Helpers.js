@@ -32,6 +32,17 @@ export const CURRENT_USER = (key = "USER") => {
   return null;
 };
 
+export const CURRENT_ROLE = () => {
+  if (
+    typeof window !== "undefined" &&
+    localStorage &&
+    !!localStorage.getItem('LOGIN_ROLE')
+  ) {
+    return localStorage.getItem('LOGIN_ROLE');
+  }
+  return null;
+}
+
 export const IsLoggedIn = () => {
   if (!iswindow()) return false;
   const token = localStorage.getItem('token') || '';
@@ -158,7 +169,9 @@ export const getFromLocalStorage = (key) => {
 };
 
 export const handleLogout = () => {
-  localStorage.clear();
+  localStorage.removeItem('token');
+  localStorage.removeItem('USER');
+  localStorage.removeItem('LOGIN_ROLE');
   if (typeof window !== "undefined") {
     window.location.href = Constants.PUBLIC_ROUTES.LOGIN;
   }
